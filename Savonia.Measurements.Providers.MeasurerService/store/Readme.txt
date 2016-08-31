@@ -1,0 +1,1 @@
+﻿This folder contains SAMI Measurement Service local store. Measurement package xml files are stored here if they cannot be saved to backend service.

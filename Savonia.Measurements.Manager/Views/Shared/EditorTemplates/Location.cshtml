@@ -1,0 +1,14 @@
+﻿@using Savonia.Measurements.Models;
+@model Location
+
+<div class="location-input">
+    <label>Use latitude - longitude</label>
+    @Html.EditorFor(model => model.Latitude) - @Html.EditorFor(model => model.Longitude)
+    <br />
+    or
+    <br />
+    <label>Well known WGS84 text</label>
+    @Html.EditorFor(model => model.WellKnownTextWGS84)
+    @*<a href="https://maps.google.com?@string.Format("ll={0},{1}&z=15", Model.GetCoordinate(Model.Latitude), Model.GetCoordinate(Model.Longitude), Model.ToString())" target="_blank">@Model</a>*@
+</div>
+

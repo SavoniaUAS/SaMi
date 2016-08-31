@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Savonia.Measurements.Models" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Savonia.Measurements.Models" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://sami.savonia.fi/Service/1.0/MeasurementsService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/System" />
+  <xs:complexType name="ArrayOfMeasurementModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MeasurementModel" nillable="true" type="tns:MeasurementModel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMeasurementModel" nillable="true" type="tns:ArrayOfMeasurementModel" />
+  <xs:complexType name="MeasurementModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Data" nillable="true" type="tns:ArrayOfDataModel" />
+      <xs:element minOccurs="0" name="Location" nillable="true" type="tns:Location" />
+      <xs:element minOccurs="0" name="Note" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Object" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Tag" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="Timestamp" type="q1:DateTimeOffset" />
+      <xs:element minOccurs="0" name="TimestampISO8601" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MeasurementModel" nillable="true" type="tns:MeasurementModel" />
+  <xs:complexType name="ArrayOfDataModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DataModel" nillable="true" type="tns:DataModel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDataModel" nillable="true" type="tns:ArrayOfDataModel" />
+  <xs:complexType name="DataModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BinaryValue" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="LongValue" nillable="true" type="xs:long" />
+      <xs:element minOccurs="0" name="Tag" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TextValue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Value" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="XmlValue" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DataModel" nillable="true" type="tns:DataModel" />
+  <xs:complexType name="Location">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Latitude" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="Longitude" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="WellKnownTextWGS84" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Location" nillable="true" type="tns:Location" />
+  <xs:complexType name="SaveResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Failures" nillable="true" type="tns:ArrayOfFailure" />
+      <xs:element minOccurs="0" name="Statuses" nillable="true" type="tns:ArrayOfMeasurementStatus" />
+      <xs:element minOccurs="0" name="Success" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SaveResult" nillable="true" type="tns:SaveResult" />
+  <xs:complexType name="ArrayOfFailure">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Failure" nillable="true" type="tns:Failure" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFailure" nillable="true" type="tns:ArrayOfFailure" />
+  <xs:complexType name="Failure">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Code" type="xs:int" />
+      <xs:element minOccurs="0" name="Index" type="xs:int" />
+      <xs:element minOccurs="0" name="Reason" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Failure" nillable="true" type="tns:Failure" />
+  <xs:complexType name="ArrayOfMeasurementStatus">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MeasurementStatus" nillable="true" type="tns:MeasurementStatus" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMeasurementStatus" nillable="true" type="tns:ArrayOfMeasurementStatus" />
+  <xs:complexType name="MeasurementStatus">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="IsSaved" type="xs:boolean" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="MeasurementTimeStamp" type="q2:DateTimeOffset" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MeasurementStatus" nillable="true" type="tns:MeasurementStatus" />
+  <xs:complexType name="MeasurementPackage">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Key" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Measurements" nillable="true" type="tns:ArrayOfMeasurementModel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MeasurementPackage" nillable="true" type="tns:MeasurementPackage" />
+  <xs:complexType name="MeasurementQueryModel">
+    <xs:sequence>
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="From" nillable="true" type="q3:DateTimeOffset" />
+      <xs:element minOccurs="0" name="InclusiveFrom" type="xs:boolean" />
+      <xs:element minOccurs="0" name="InclusiveTo" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Key" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Obj" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Sensors" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Tag" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Take" nillable="true" type="xs:int" />
+      <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="To" nillable="true" type="q4:DateTimeOffset" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MeasurementQueryModel" nillable="true" type="tns:MeasurementQueryModel" />
+  <xs:complexType name="ArrayOfSensorModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SensorModel" nillable="true" type="tns:SensorModel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSensorModel" nillable="true" type="tns:ArrayOfSensorModel" />
+  <xs:complexType name="SensorModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Tag" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Unit" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ValueDecimalCount" nillable="true" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SensorModel" nillable="true" type="tns:SensorModel" />
+</xs:schema>

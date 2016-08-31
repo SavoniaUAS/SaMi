@@ -1,0 +1,129 @@
+﻿@using Savonia.Measurements.Models
+@using Savonia.Measurements.Manager.Models;
+
+@model List<MeasurementModel>
+@{IEnumerable<string> datetimeFormats = ViewBag.DatetimeFormats as IEnumerable<string>;
+    ExportModel exportModel = ViewBag.ExportModel;
+    int DataTagCount = (int)ViewBag.DataCount;
+   }
+    <div id="gridContent">
+        <h3>Measurements</h3>
+        <table id="tableMeasurements" class="display table table-bordered table-responsive table-striped">
+            <thead></thead>
+            <tbody></tbody>
+        </table>
+
+        <table id="tableResult" class="display">
+            <thead>
+                <tr>
+                    <th>Object</th>
+                    <th>Tag</th>
+                    <th class="timestamp">Timestamp</th>
+                    <th>Location</th>
+                    <th>Note</th>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        for (int j = 0; j < Model[i].Data.Count; j++)
+                        {
+                            <th class="value">@Html.Encode(Model[i].Data[j].Tag + " (Value)")</th>
+                            <th class="longValue">@Html.Encode(Model[i].Data[j].Tag + " (Long)")</th>
+                            <th class="textValue">@Html.Encode(Model[i].Data[j].Tag + " (Text)")</th>
+                            <th class="binaryValue">@Html.Encode(Model[i].Data[j].Tag + " (Binary)")</th>
+                            <th class="xmlValue">@Html.Encode(Model[i].Data[j].Tag + " (Xml)")</th>
+                        }
+                        break;
+                    }
+                </tr>
+            </thead>
+            <tbody>
+
+                @for (int i = 0; i < Model.Count(); i++)
+                {
+                    <tr>
+                        <td>@Html.Encode(Model[i].Object)</td>
+                        <td>@Html.Encode(Model[i].Tag)</td>
+                        <td class="timestampValue">@Html.Encode(Model[i].Timestamp)</td>
+                        <td>@Html.Encode(Model[i].Location)</td>
+                        <td>@Html.Encode(Model[i].Note)</td>
+
+                        @foreach (var d in Model[i].Data)
+                        {
+                            <td class="value">@Html.Encode(d.Value)</td>
+                            <td class="longValue">@Html.Encode(d.LongValue)</td>
+                            <td class="textValue">@Html.Encode(d.TextValue)</td>
+                            <td class="binaryValue">@Html.Encode(d.BinaryValue)</td>
+                            <td class="xmlValue">@Html.Encode(d.XmlValue)</td>
+                        }
+                    </tr>
+                }            
+            </tbody>
+        </table>
+
+    </div>
+<script src="~/Scripts/Datejs/date.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () 
+    {
+        var scroll = true;
+        var tagCount =  @DataTagCount;
+        var valuesShown = 1;
+        var measurementCount = @Model.Count;
+        var HeightY = 200;
+        if (tagCount != null && tagCount<5) {
+            scroll = false;
+        }
+        if (measurementCount!= null && measurementCount >10) {
+            HeightY = 400;
+        }
+       var table = $("#tableResult").DataTable({
+            "scrollX": scroll,
+            deferRender:true,
+            scrollY:HeightY,
+            scrollX:scroll
+       });
+       table.columns( '.longValue' ).visible( false );
+       table.columns( '.textValue' ).visible( false );
+       table.columns( '.binaryValue' ).visible( false );
+       table.columns( '.xmlValue' ).visible( false );
+
+       $('input.toggleValue').change(function ()
+       {
+           var checked = $(this).is(':checked');
+           var columns = table.columns( $(this).attr('data-value'));
+           columns.visible(checked);   
+       });
+
+       var datetimeformat=  $('#timestampList option:selected').text();
+       var timestampRowData =  table.column(2).data();;
+
+       $('#timestampList').change(function ()
+       {        
+           var format = $(this).find(":selected").text();
+           var t=   $(".timestampValue");
+           var i = 0;
+
+           if (format !=datetimeformat) {
+               $.each(t,function(key,value)
+               {
+                   var time= timestampRowData[i].split("+");
+                   var tempFormat = datetimeformat.split(".zz");
+                   var date=  Date.parse(time[0],tempFormat[0]);
+                   var newvalue= date.toString(format)
+                   value.innerHTML = newvalue;
+                   i++;
+               });
+           }
+           else {
+               $.each(t,function(key,value)
+               {
+                   value.innerHTML = timestampRowData[i]
+                   i++;
+               });
+           }
+           table.rows().invalidate().draw();
+       });
+    });
+
+</script>
+    
+

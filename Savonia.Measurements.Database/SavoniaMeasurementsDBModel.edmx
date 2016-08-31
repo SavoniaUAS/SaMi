@@ -1,0 +1,550 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SavoniaMeasurementsV2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AccessKey">
+          <Key>
+            <PropertyRef Name="ProviderID" />
+            <PropertyRef Name="Key" />
+          </Key>
+          <Property Name="ProviderID" Type="int" Nullable="false" />
+          <Property Name="Key" Type="nvarchar" MaxLength="448" Nullable="false" />
+          <Property Name="AccessControl" Type="int" Nullable="false" />
+          <Property Name="ValidFrom" Type="datetimeoffset" Precision="7" />
+          <Property Name="ValidTo" Type="datetimeoffset" Precision="7" />
+          <Property Name="KeyId" Type="smallint" />
+          <Property Name="KeyEncrypt" Type="nvarchar" MaxLength="448" />
+          <Property Name="Info" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Data">
+          <Key>
+            <PropertyRef Name="MeasurementID" />
+            <PropertyRef Name="Tag" />
+          </Key>
+          <Property Name="MeasurementID" Type="bigint" Nullable="false" />
+          <Property Name="Tag" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Value" Type="float" />
+          <Property Name="LongValue" Type="bigint" />
+          <Property Name="TextValue" Type="nvarchar(max)" />
+          <Property Name="BinaryValue" Type="varbinary(max)" />
+          <Property Name="XmlValue" Type="xml" />
+        </EntityType>
+        <EntityType Name="Measurement">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProviderID" Type="int" Nullable="false" />
+          <Property Name="Object" Type="nvarchar" MaxLength="50" />
+          <Property Name="Tag" Type="nvarchar" MaxLength="50" />
+          <Property Name="Timestamp" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="Note" Type="nvarchar(max)" />
+          <Property Name="Location" Type="geography" />
+          <Property Name="RowCreatedTimestamp" Type="datetimeoffset" Precision="7" />
+          <Property Name="KeyId" Type="smallint" />
+        </EntityType>
+        <EntityType Name="Meta">
+          <Key>
+            <PropertyRef Name="Context" />
+            <PropertyRef Name="Object" />
+            <PropertyRef Name="Tag" />
+            <PropertyRef Name="Version" />
+          </Key>
+          <Property Name="Context" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Object" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Tag" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Version" Type="int" Nullable="false" />
+          <Property Name="Data" Type="varbinary(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Provider">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Key" Type="nvarchar" MaxLength="448" Nullable="false" />
+          <Property Name="Info" Type="nvarchar(max)" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" />
+          <Property Name="Owner" Type="nvarchar" MaxLength="250" />
+          <Property Name="IsPublicDomain" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="Tag" Type="nvarchar" MaxLength="50" />
+          <Property Name="Location" Type="geography" />
+          <Property Name="ContactEmail" Type="nvarchar" MaxLength="250" />
+          <Property Name="ActiveFrom" Type="datetime" />
+          <Property Name="ActiveTo" Type="datetime" />
+          <Property Name="DataStorageUntil" Type="datetime" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Query">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProviderID" Type="int" Nullable="false" />
+          <Property Name="Key" Type="nvarchar" MaxLength="448" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Object" Type="nvarchar" MaxLength="50" />
+          <Property Name="Tag" Type="nvarchar" MaxLength="50" />
+          <Property Name="Take" Type="int" />
+          <Property Name="From" Type="datetimeoffset" Precision="7" />
+          <Property Name="To" Type="datetimeoffset" Precision="7" />
+          <Property Name="Sensors" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Sensor">
+          <Key>
+            <PropertyRef Name="ProviderID" />
+            <PropertyRef Name="Tag" />
+          </Key>
+          <Property Name="ProviderID" Type="int" Nullable="false" />
+          <Property Name="Tag" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Rounding" Type="int" />
+          <Property Name="Unit" Type="nvarchar" MaxLength="50" />
+          <Property Name="Context" Type="nvarchar" MaxLength="250" />
+          <Property Name="Location" Type="geography" />
+        </EntityType>
+        <Association Name="FK_Data_Measurement">
+          <End Role="Measurement" Type="Self.Measurement" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Data" Type="Self.Data" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Measurement">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Data">
+              <PropertyRef Name="MeasurementID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Keys_Provider">
+          <End Role="Provider" Type="Self.Provider" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AccessKey" Type="Self.AccessKey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provider">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AccessKey">
+              <PropertyRef Name="ProviderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Measurement_Provider">
+          <End Role="Provider" Type="Self.Provider" Multiplicity="1" />
+          <End Role="Measurement" Type="Self.Measurement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provider">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Measurement">
+              <PropertyRef Name="ProviderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Query_AccessKey">
+          <End Role="AccessKey" Type="Self.AccessKey" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Query" Type="Self.Query" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccessKey">
+              <PropertyRef Name="ProviderID" />
+              <PropertyRef Name="Key" />
+            </Principal>
+            <Dependent Role="Query">
+              <PropertyRef Name="ProviderID" />
+              <PropertyRef Name="Key" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sensor_Provider">
+          <End Role="Provider" Type="Self.Provider" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Sensor" Type="Self.Sensor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provider">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Sensor">
+              <PropertyRef Name="ProviderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SavoniaMeasurementsV2ModelStoreContainer">
+          <EntitySet Name="AccessKey" EntityType="Self.AccessKey" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Data" EntityType="Self.Data" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Measurement" EntityType="Self.Measurement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Meta" EntityType="Self.Meta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Provider" EntityType="Self.Provider" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Query" EntityType="Self.Query" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sensor" EntityType="Self.Sensor" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Data_Measurement" Association="Self.FK_Data_Measurement">
+            <End Role="Measurement" EntitySet="Measurement" />
+            <End Role="Data" EntitySet="Data" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Keys_Provider" Association="Self.FK_Keys_Provider">
+            <End Role="Provider" EntitySet="Provider" />
+            <End Role="AccessKey" EntitySet="AccessKey" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Measurement_Provider" Association="Self.FK_Measurement_Provider">
+            <End Role="Provider" EntitySet="Provider" />
+            <End Role="Measurement" EntitySet="Measurement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Query_AccessKey" Association="Self.FK_Query_AccessKey">
+            <End Role="AccessKey" EntitySet="AccessKey" />
+            <End Role="Query" EntitySet="Query" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sensor_Provider" Association="Self.FK_Sensor_Provider">
+            <End Role="Provider" EntitySet="Provider" />
+            <End Role="Sensor" EntitySet="Sensor" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SavoniaMeasurementsV2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SavoniaMeasurementsV2Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AccessKeys" EntityType="SavoniaMeasurementsV2Model.AccessKey" />
+          <EntitySet Name="Data" EntityType="SavoniaMeasurementsV2Model.Datum" />
+          <EntitySet Name="Measurements" EntityType="SavoniaMeasurementsV2Model.Measurement" />
+          <EntitySet Name="Sensors" EntityType="SavoniaMeasurementsV2Model.Sensor" />
+          <AssociationSet Name="FK_Data_Measurement" Association="SavoniaMeasurementsV2Model.FK_Data_Measurement">
+            <End Role="Measurement" EntitySet="Measurements" />
+            <End Role="Datum" EntitySet="Data" />
+          </AssociationSet>
+          <EntitySet Name="Metas" EntityType="SavoniaMeasurementsV2Model.Meta" />
+          <EntitySet Name="Providers" EntityType="SavoniaMeasurementsV2Model.Provider" />
+          <AssociationSet Name="FK_Keys_Provider" Association="SavoniaMeasurementsV2Model.FK_Keys_Provider">
+            <End Role="Provider" EntitySet="Providers" />
+            <End Role="AccessKey" EntitySet="AccessKeys" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Measurement_Provider" Association="SavoniaMeasurementsV2Model.FK_Measurement_Provider">
+            <End Role="Provider" EntitySet="Providers" />
+            <End Role="Measurement" EntitySet="Measurements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sensor_Provider" Association="SavoniaMeasurementsV2Model.FK_Sensor_Provider">
+            <End Role="Provider" EntitySet="Providers" />
+            <End Role="Sensor" EntitySet="Sensors" />
+          </AssociationSet>
+          <EntitySet Name="Queries" EntityType="SavoniaMeasurementsV2Model.Query" />
+          <AssociationSet Name="FK_Query_AccessKey" Association="SavoniaMeasurementsV2Model.FK_Query_AccessKey">
+            <End Role="AccessKey" EntitySet="AccessKeys" />
+            <End Role="Query" EntitySet="Queries" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AccessKey">
+          <Key>
+            <PropertyRef Name="ProviderID" />
+            <PropertyRef Name="Key" />
+          </Key>
+          <Property Name="ProviderID" Type="Int32" Nullable="false" />
+          <Property Name="Key" Type="String" Nullable="false" MaxLength="448" FixedLength="false" Unicode="true" />
+          <Property Name="AccessControl" Type="Int32" Nullable="false" />
+          <Property Name="ValidFrom" Type="DateTimeOffset" Precision="7" />
+          <Property Name="ValidTo" Type="DateTimeOffset" Precision="7" />
+          <NavigationProperty Name="Provider" Relationship="SavoniaMeasurementsV2Model.FK_Keys_Provider" FromRole="AccessKey" ToRole="Provider" />
+          <Property Name="KeyId" Type="Int16" />
+          <Property Name="KeyEncrypt" Type="String" MaxLength="448" FixedLength="false" Unicode="true" />
+          <Property Name="Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Queries" Relationship="SavoniaMeasurementsV2Model.FK_Query_AccessKey" FromRole="AccessKey" ToRole="Query" />
+        </EntityType>
+        <EntityType Name="Datum">
+          <Key>
+            <PropertyRef Name="MeasurementID" />
+            <PropertyRef Name="Tag" />
+          </Key>
+          <Property Name="MeasurementID" Type="Int64" Nullable="false" />
+          <Property Name="Tag" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Value" Type="Double" />
+          <Property Name="LongValue" Type="Int64" />
+          <Property Name="TextValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BinaryValue" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="XmlValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Measurement" Relationship="SavoniaMeasurementsV2Model.FK_Data_Measurement" FromRole="Datum" ToRole="Measurement" />
+        </EntityType>
+        <EntityType Name="Measurement">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProviderID" Type="Int32" Nullable="false" />
+          <Property Name="Object" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Tag" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Timestamp" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="Geography" />
+          <Property Name="RowCreatedTimestamp" Type="DateTimeOffset" Precision="7" />
+          <NavigationProperty Name="Data" Relationship="SavoniaMeasurementsV2Model.FK_Data_Measurement" FromRole="Measurement" ToRole="Datum" />
+          <NavigationProperty Name="Provider" Relationship="SavoniaMeasurementsV2Model.FK_Measurement_Provider" FromRole="Measurement" ToRole="Provider" />
+          <Property Name="KeyId" Type="Int16" />
+        </EntityType>
+        <EntityType Name="Sensor">
+          <Key>
+            <PropertyRef Name="ProviderID" />
+            <PropertyRef Name="Tag" />
+          </Key>
+          <Property Name="ProviderID" Type="Int32" Nullable="false" />
+          <Property Name="Tag" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Rounding" Type="Int32" />
+          <Property Name="Unit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Provider" Relationship="SavoniaMeasurementsV2Model.FK_Sensor_Provider" FromRole="Sensor" ToRole="Provider" />
+          <Property Name="Context" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="Geography" />
+        </EntityType>
+        <Association Name="FK_Data_Measurement">
+          <End Type="SavoniaMeasurementsV2Model.Measurement" Role="Measurement" Multiplicity="1" />
+          <End Type="SavoniaMeasurementsV2Model.Datum" Role="Datum" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Measurement">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Datum">
+              <PropertyRef Name="MeasurementID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Meta">
+          <Key>
+            <PropertyRef Name="Context" />
+            <PropertyRef Name="Object" />
+            <PropertyRef Name="Tag" />
+            <PropertyRef Name="Version" />
+          </Key>
+          <Property Name="Context" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Object" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Tag" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Version" Type="Int32" Nullable="false" />
+          <Property Name="Data" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Provider">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Key" Type="String" Nullable="false" MaxLength="448" FixedLength="false" Unicode="true" />
+          <Property Name="Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Owner" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IsPublicDomain" Type="Boolean" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Tag" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="Geography" />
+          <Property Name="ContactEmail" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ActiveFrom" Type="DateTime" Precision="3" />
+          <Property Name="ActiveTo" Type="DateTime" Precision="3" />
+          <Property Name="DataStorageUntil" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AccessKeys" Relationship="SavoniaMeasurementsV2Model.FK_Keys_Provider" FromRole="Provider" ToRole="AccessKey" />
+          <NavigationProperty Name="Measurements" Relationship="SavoniaMeasurementsV2Model.FK_Measurement_Provider" FromRole="Provider" ToRole="Measurement" />
+          <NavigationProperty Name="Sensors" Relationship="SavoniaMeasurementsV2Model.FK_Sensor_Provider" FromRole="Provider" ToRole="Sensor" />
+        </EntityType>
+        <Association Name="FK_Keys_Provider">
+          <End Type="SavoniaMeasurementsV2Model.Provider" Role="Provider" Multiplicity="1" />
+          <End Type="SavoniaMeasurementsV2Model.AccessKey" Role="AccessKey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provider">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AccessKey">
+              <PropertyRef Name="ProviderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Measurement_Provider">
+          <End Type="SavoniaMeasurementsV2Model.Provider" Role="Provider" Multiplicity="1" />
+          <End Type="SavoniaMeasurementsV2Model.Measurement" Role="Measurement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provider">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Measurement">
+              <PropertyRef Name="ProviderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sensor_Provider">
+          <End Type="SavoniaMeasurementsV2Model.Provider" Role="Provider" Multiplicity="1" />
+          <End Type="SavoniaMeasurementsV2Model.Sensor" Role="Sensor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provider">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Sensor">
+              <PropertyRef Name="ProviderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Query">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProviderID" Type="Int32" Nullable="false" />
+          <Property Name="Key" Type="String" Nullable="false" MaxLength="448" FixedLength="false" Unicode="true" />
+          <Property Name="Object" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Tag" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Take" Type="Int32" />
+          <Property Name="From" Type="DateTimeOffset" Precision="7" />
+          <Property Name="To" Type="DateTimeOffset" Precision="7" />
+          <Property Name="Sensors" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AccessKey" Relationship="SavoniaMeasurementsV2Model.FK_Query_AccessKey" FromRole="Query" ToRole="AccessKey" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Query_AccessKey">
+          <End Type="SavoniaMeasurementsV2Model.AccessKey" Role="AccessKey" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="SavoniaMeasurementsV2Model.Query" Role="Query" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccessKey">
+              <PropertyRef Name="ProviderID" />
+              <PropertyRef Name="Key" />
+            </Principal>
+            <Dependent Role="Query">
+              <PropertyRef Name="ProviderID" />
+              <PropertyRef Name="Key" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SavoniaMeasurementsV2ModelStoreContainer" CdmEntityContainer="SavoniaMeasurementsV2Entities">
+          <EntitySetMapping Name="AccessKeys">
+            <EntityTypeMapping TypeName="SavoniaMeasurementsV2Model.AccessKey">
+              <MappingFragment StoreEntitySet="AccessKey">
+                <ScalarProperty Name="Info" ColumnName="Info" />
+                <ScalarProperty Name="KeyEncrypt" ColumnName="KeyEncrypt" />
+                <ScalarProperty Name="KeyId" ColumnName="KeyId" />
+                <ScalarProperty Name="ValidTo" ColumnName="ValidTo" />
+                <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+                <ScalarProperty Name="AccessControl" ColumnName="AccessControl" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="ProviderID" ColumnName="ProviderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Data">
+            <EntityTypeMapping TypeName="SavoniaMeasurementsV2Model.Datum">
+              <MappingFragment StoreEntitySet="Data">
+                <ScalarProperty Name="XmlValue" ColumnName="XmlValue" />
+                <ScalarProperty Name="BinaryValue" ColumnName="BinaryValue" />
+                <ScalarProperty Name="TextValue" ColumnName="TextValue" />
+                <ScalarProperty Name="LongValue" ColumnName="LongValue" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+                <ScalarProperty Name="MeasurementID" ColumnName="MeasurementID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Measurements">
+            <EntityTypeMapping TypeName="SavoniaMeasurementsV2Model.Measurement">
+              <MappingFragment StoreEntitySet="Measurement">
+                <ScalarProperty Name="KeyId" ColumnName="KeyId" />
+                <ScalarProperty Name="RowCreatedTimestamp" ColumnName="RowCreatedTimestamp" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+                <ScalarProperty Name="Object" ColumnName="Object" />
+                <ScalarProperty Name="ProviderID" ColumnName="ProviderID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sensors">
+            <EntityTypeMapping TypeName="SavoniaMeasurementsV2Model.Sensor">
+              <MappingFragment StoreEntitySet="Sensor">
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Context" ColumnName="Context" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Rounding" ColumnName="Rounding" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+                <ScalarProperty Name="ProviderID" ColumnName="ProviderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Metas">
+            <EntityTypeMapping TypeName="SavoniaMeasurementsV2Model.Meta">
+              <MappingFragment StoreEntitySet="Meta">
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+                <ScalarProperty Name="Object" ColumnName="Object" />
+                <ScalarProperty Name="Context" ColumnName="Context" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Providers">
+            <EntityTypeMapping TypeName="SavoniaMeasurementsV2Model.Provider">
+              <MappingFragment StoreEntitySet="Provider">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="DataStorageUntil" ColumnName="DataStorageUntil" />
+                <ScalarProperty Name="ActiveTo" ColumnName="ActiveTo" />
+                <ScalarProperty Name="ActiveFrom" ColumnName="ActiveFrom" />
+                <ScalarProperty Name="ContactEmail" ColumnName="ContactEmail" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="IsPublicDomain" ColumnName="IsPublicDomain" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Info" ColumnName="Info" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Queries">
+            <EntityTypeMapping TypeName="SavoniaMeasurementsV2Model.Query">
+              <MappingFragment StoreEntitySet="Query">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Sensors" ColumnName="Sensors" />
+                <ScalarProperty Name="To" ColumnName="To" />
+                <ScalarProperty Name="From" ColumnName="From" />
+                <ScalarProperty Name="Take" ColumnName="Take" />
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+                <ScalarProperty Name="Object" ColumnName="Object" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="ProviderID" ColumnName="ProviderID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

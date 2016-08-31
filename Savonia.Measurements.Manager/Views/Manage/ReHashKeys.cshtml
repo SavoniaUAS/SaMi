@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "Re-hash keys";
+}
+
+<h2>Re-calculate all key hashes</h2>
+@using (Html.BeginForm())
+{
+    <label for="makeHashs">Re-hash all keys</label>
+    @Html.CheckBox("makeHashs")
+    <p>
+        <input type="submit" value="Make it so!" />
+    </p>
+}

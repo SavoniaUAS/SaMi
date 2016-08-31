@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="Savonia.Measurements.Services.MeasurementsService" CodeBehind="MeasurementsService.svc.cs" %>

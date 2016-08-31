@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="Savonia.MeasurementService.V3" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:i0="http://Savonia.MeasurementService/2014/2" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="MeasurementsService" targetNamespace="Savonia.MeasurementService.V3" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:import namespace="http://Savonia.MeasurementService/2014/2" location="https://sami.savonia.fi/Service/1.0/MeasurementsService.svc?wsdl=wsdl0" />
+  <wsdl:types>
+    <xsd:schema targetNamespace="Savonia.MeasurementService.V3/Imports">
+      <xsd:import schemaLocation="https://sami.savonia.fi/Service/1.0/MeasurementsService.svc?xsd=xsd0" namespace="Savonia.MeasurementService.V3" />
+      <xsd:import schemaLocation="https://sami.savonia.fi/Service/1.0/MeasurementsService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="https://sami.savonia.fi/Service/1.0/MeasurementsService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Savonia.Measurements.Models" />
+      <xsd:import schemaLocation="https://sami.savonia.fi/Service/1.0/MeasurementsService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/System" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IMeasurementsService_SaveMeasurements_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveMeasurements" />
+  </wsdl:message>
+  <wsdl:message name="IMeasurementsService_SaveMeasurements_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveMeasurementsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMeasurementsService_SaveMeasurementPackage_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveMeasurementPackage" />
+  </wsdl:message>
+  <wsdl:message name="IMeasurementsService_SaveMeasurementPackage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveMeasurementPackageResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMeasurementsService_RestGetMeasurements_InputMessage">
+    <wsdl:part name="parameters" element="tns:RestGetMeasurements" />
+  </wsdl:message>
+  <wsdl:message name="IMeasurementsService_RestGetMeasurements_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RestGetMeasurementsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMeasurementsService_GetMeasurements_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMeasurements" />
+  </wsdl:message>
+  <wsdl:message name="IMeasurementsService_GetMeasurements_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMeasurementsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMeasurementsService_GetSensors_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSensors" />
+  </wsdl:message>
+  <wsdl:message name="IMeasurementsService_GetSensors_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSensorsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMeasurementsService_GetSaveMeasurementsTemplate_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSaveMeasurementsTemplate" />
+  </wsdl:message>
+  <wsdl:message name="IMeasurementsService_GetSaveMeasurementsTemplate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSaveMeasurementsTemplateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMeasurementsService_GetSaveMeasurementPackageTemplate_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSaveMeasurementPackageTemplate" />
+  </wsdl:message>
+  <wsdl:message name="IMeasurementsService_GetSaveMeasurementPackageTemplate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSaveMeasurementPackageTemplateResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IMeasurementsService">
+    <wsdl:operation name="SaveMeasurements">
+      <wsdl:input wsaw:Action="Savonia.MeasurementService.V3/IMeasurementsService/SaveMeasurements" message="tns:IMeasurementsService_SaveMeasurements_InputMessage" />
+      <wsdl:output wsaw:Action="Savonia.MeasurementService.V3/IMeasurementsService/SaveMeasurementsResponse" message="tns:IMeasurementsService_SaveMeasurements_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveMeasurementPackage">
+      <wsdl:input wsaw:Action="Savonia.MeasurementService.V3/IMeasurementsService/SaveMeasurementPackage" message="tns:IMeasurementsService_SaveMeasurementPackage_InputMessage" />
+      <wsdl:output wsaw:Action="Savonia.MeasurementService.V3/IMeasurementsService/SaveMeasurementPackageResponse" message="tns:IMeasurementsService_SaveMeasurementPackage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RestGetMeasurements">
+      <wsdl:input wsaw:Action="Savonia.MeasurementService.V3/IMeasurementsService/RestGetMeasurements" message="tns:IMeasurementsService_RestGetMeasurements_InputMessage" />
+      <wsdl:output wsaw:Action="Savonia.MeasurementService.V3/IMeasurementsService/RestGetMeasurementsResponse" message="tns:IMeasurementsService_RestGetMeasurements_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMeasurements">
+      <wsdl:input wsaw:Action="Savonia.MeasurementService.V3/IMeasurementsService/GetMeasurements" message="tns:IMeasurementsService_GetMeasurements_InputMessage" />
+      <wsdl:output wsaw:Action="Savonia.MeasurementService.V3/IMeasurementsService/GetMeasurementsResponse" message="tns:IMeasurementsService_GetMeasurements_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSensors">
+      <wsdl:input wsaw:Action="Savonia.MeasurementService.V3/IMeasurementsService/GetSensors" message="tns:IMeasurementsService_GetSensors_InputMessage" />
+      <wsdl:output wsaw:Action="Savonia.MeasurementService.V3/IMeasurementsService/GetSensorsResponse" message="tns:IMeasurementsService_GetSensors_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSaveMeasurementsTemplate">
+      <wsdl:input wsaw:Action="Savonia.MeasurementService.V3/IMeasurementsService/GetSaveMeasurementsTemplate" message="tns:IMeasurementsService_GetSaveMeasurementsTemplate_InputMessage" />
+      <wsdl:output wsaw:Action="Savonia.MeasurementService.V3/IMeasurementsService/GetSaveMeasurementsTemplateResponse" message="tns:IMeasurementsService_GetSaveMeasurementsTemplate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSaveMeasurementPackageTemplate">
+      <wsdl:input wsaw:Action="Savonia.MeasurementService.V3/IMeasurementsService/GetSaveMeasurementPackageTemplate" message="tns:IMeasurementsService_GetSaveMeasurementPackageTemplate_InputMessage" />
+      <wsdl:output wsaw:Action="Savonia.MeasurementService.V3/IMeasurementsService/GetSaveMeasurementPackageTemplateResponse" message="tns:IMeasurementsService_GetSaveMeasurementPackageTemplate_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:service name="MeasurementsService">
+    <wsdl:port name="WSHttpBinding_IMeasurementsService" binding="i0:WSHttpBinding_IMeasurementsService">
+      <soap12:address location="https://sami.savonia.fi/Service/1.0/MeasurementsService.svc" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>https://sami.savonia.fi/Service/1.0/MeasurementsService.svc</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

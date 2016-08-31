@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, Chrome=1" />
+    <title></title>
+</head>
+<body>
+
+    <h2>Test JSONP with the service</h2>
+
+    Key: <input type="password" id="theKey" />
+    <br />
+    <input type="submit" value="Get data" id="submit"/>
+
+    <hr />
+    <div id="content">
+
+    </div>
+
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script>
+        $(function () {
+            $("#submit").click(function () {
+                var content = $("#content");
+                content.html('');
+                var key = $("#theKey").val();
+                $.getJSON('https://YourDomain/measurements/MeasurementsService.svc/json/measurements/' + key + '?callback=?', null, function (data) {
+                    content.html(JSON.stringify(data));
+                });
+            });
+        })
+    </script>
+</body>
+</html>
+
+
+

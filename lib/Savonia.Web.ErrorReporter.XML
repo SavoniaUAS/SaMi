@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Savonia.Web.ErrorReporter</name>
+    </assembly>
+    <members>
+        <member name="T:Savonia.Web.ErrorReporter.ErrorReporterModule">
+            <summary>
+            Sends error reports to specified mail recipient(s).
+            Use "ExceptionMailsRecipients" key in appSettings to enable error reporting.
+            Use comma (,) separated list of error report recipients.
+            
+            </summary>
+        </member>
+        <member name="M:Savonia.Web.ErrorReporter.ErrorReporterModule.HandleException(System.Exception,System.Web.HttpRequest,System.String)">
+            <summary>
+            Handle exception. Send exception message to mail recipients or write to trace log if no recipients are defined.
+            </summary>
+            <param name="exception">The exception</param>
+            <param name="request"><see cref="T:System.Web.HttpRequest"/> http request</param>
+            <param name="extraInfo">Extra information for exception message. Default is empty string.</param>
+        </member>
+    </members>
+</doc>

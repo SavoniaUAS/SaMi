@@ -1,0 +1,196 @@
+﻿
+@{
+    ViewBag.Title = "Help";
+    string serviceBaseUrl = System.Configuration.ConfigurationManager.AppSettings["ServiceV3BaseUrl"];
+}
+
+<h2>Help for Savonia Measurements</h2>
+
+<h3>Measurements service</h3>
+<p>
+    You can send and read measurements via WCF service in address <a href="@Url.Content(serviceBaseUrl)">MeasurementsService.svc</a>.
+    Use this when your client is web service capable.
+</p>
+<pre>
+        public void SendMeasurementPackage()
+        {
+            // init the client
+            MeasurementsServiceClient client = new MeasurementsServiceClient();
+            // create the measurement package and populate it
+            MeasurementPackage package = new MeasurementPackage();
+            package.Key = "your-key-goes-here";
+            // create a collection of measurements
+            List<measurementmodel> measurements = new List<measurementmodel>();
+            // create a measurement
+            MeasurementModel m = new MeasurementModel()
+            {
+                Object = "your-measurement-object",
+                Tag = "your-measurement-tag",
+                Timestamp = DateTimeOffset.Now,
+                Location = new Location() 
+                {
+                    Latitude = 62.8989, // use DD, decimal degrees, latitude -90 to 90
+                    Longitude = 27.6630 // use DD, decimal degrees, longitude -180 to 180
+                }
+            };
+            // add some data to your measurement
+            DataModel d = new DataModel()
+            {
+                Tag = "your-data-tag",
+                Value = 3.14
+            };
+            // add data to measurement
+            m.Data = new DataModel[1];
+            m.Data[0] = d;
+            // add measurement to measurements collection
+            measurements.Add(m);
+            // add measurements collection to measurement package
+            package.Measurements = measurements.ToArray();
+            // save the measurement package and check the result
+            SaveResult result = client.SaveMeasurementPackage(package);
+        }
+</pre>
+<h3>JSON interface</h3>
+<article>
+    Measurements service has also a json interface which can be accessed from urls:
+    <ul>
+        <li>get json object template for saving measurements array from url <a href="@Url.Content(serviceBaseUrl)/json/measurements/template">@Url.ContentAbsUrl(serviceBaseUrl + "/json/measurements/template")</a></li>
+        <li>get json object template for saving measurement package from url <a href="@Url.Content(serviceBaseUrl)/json/measurementpackage/template">@Url.ContentAbsUrl(serviceBaseUrl + "/json/measurementpackage/template")</a></li>
+        <li>to save measurements array use url <a href="@Url.Content(serviceBaseUrl)/json/measurements/save">@Url.ContentAbsUrl(serviceBaseUrl +  "/json/measurements/save")</a></li>
+        <li>to save measurement package use url <a href="@Url.Content(serviceBaseUrl)/json/measurementpackage/save">@Url.ContentAbsUrl(serviceBaseUrl + "/json/measurementpackage/save")</a></li>
+        <li>to query measurements use url <a href="@Url.Content(serviceBaseUrl)/json/measurements/your-key-here?obj=your-meas-object&tag=your-meas-tag&data-tags=comma-separated-list-of-data-tags&from=from&to=to&take=20&inclusiveFrom=true&inclusiveTo=true">@Url.ContentAbsUrl("~/MeasurementsService.svc/json/measurements/your-key-here?obj=your-meas-object&tag=your-meas-tag&data-tags=comma-separated-list-of-data-tags&from=from&to=to&take=20&inclusiveFrom=true&inclusiveTo=true")</a></li>
+        <li>to get sensor info use url <a href="@Url.Content(serviceBaseUrl)/json/sensors/your-key-here">@Url.ContentAbsUrl(serviceBaseUrl + "/json/sensors/your-key-here")</a></li>
+    </ul>
+    <aside>
+        Save measurements array and save measurement package both saves the measurements. It's your choice which one you use. The service has cross domain script access enabled.
+    </aside>
+    <h4>To save measurements via json post request</h4>
+    <h4>with key and measurements array</h4>
+    <small>/json/measurements/save takes two "parameters": <i>a key</i> and <i>an array of measurement objects</i></small>
+    <pre>
+        POST @Url.ContentAbsUrl(serviceBaseUrl + "/json/measurements/save") HTTP/1.1
+        User-Agent: Fiddler
+        Host: @HttpContext.Current.Request.Url.Host
+        Content-Type: text/json
+        
+
+        {
+            "key":"your-key-goes-here",
+            "measurements":
+            [
+                {
+                    "Data":
+                    [
+                        {
+                            "BinaryValue":null,
+                            "LongValue":null,
+                            "Tag":"This is your sensor identification. This is unique to you. Tag max length is 50 characters.",
+                            "TextValue":"your sensor can have some textual values also.",
+                            "Value":3.14,
+                            "XmlValue":null
+                        }
+                    ],
+                    "Location":{"Latitude":62.8989,"Longitude":27.6630},
+                    "Note":"if this measurement has a note",
+                    "Object":"your-measurement-object, Object max length is 50 characters.",
+                    "Tag":"your-measurement-tag, Tag max length is 50 characters.",
+                    "Timestamp":{"DateTime":"\/Date(1412878153764)\/","OffsetMinutes":180}
+                }
+            ]
+        }
+    </pre>
+    <h4>with measurement package</h4>
+    <small>/json/measurementpackage/save takes one "parameter": <i>a measurement package object</i></small>
+    <pre>
+        POST @Url.ContentAbsUrl(serviceBaseUrl + "/json/measurementpackage/save") HTTP/1.1
+        User-Agent: Fiddler
+        Host: @HttpContext.Current.Request.Url.Host
+        Content-Type: text/json
+
+        
+        {
+            "Key":"your-key-goes-here",
+            "Measurements":
+            [
+                {
+                    "Data":
+                    [
+                        {
+                            "BinaryValue":null,
+                            "LongValue":null,
+                            "Tag":"This is your sensor identification. This is unique to you. Tag max length is 50 characters.",
+                            "TextValue":"your sensor can have some textual values also.",
+                            "Value":3.14,
+                            "XmlValue":null
+                        }
+                    ],
+                    "Location":{"Latitude":62.8989,"Longitude":27.6630},
+                    "Note":"if this measurement has a note",
+                    "Object":"your-measurement-object, Object max length is 50 characters.",
+                    "Tag":"your-measurement-tag, Tag max length is 50 characters.",
+                    "Timestamp":{"DateTime":"\/Date(1412878153764)\/","OffsetMinutes":180}
+                }
+            ]
+        }        
+    </pre>
+    <small>Note! Javascript date value <i>Date(1412878153764)</i> in the samples abowe equals <i>9.10.2014 21:09:13</i> when presented as Finnish datetime.</small>
+    <br />
+    <small>Note! Location uses <i>DD, decimal degree</i> notation. Valid values are: latitude -90 to 90 and longitude -180 to 180.</small>
+    <p>
+        More info about DateTime parsing is in <a href="http://james.newtonking.com/json/help/?topic=html/DatesInJSON.htm" target="_blank">Serializing Dates in JSON</a>.
+    </p>
+    <h4>To read measurements via json get request</h4>
+    <pre>
+        GET @Url.ContentAbsUrl(serviceBaseUrl + "/json/measurements/your-key-here?obj=your-meas-object&tag=your-meas-tag&data-tags=comma-separated-list-of-data-tags&from=from&to=to&take=20&inclusiveFrom=true&inclusiveTo=true") HTTP/1.1
+        User-Agent: Fiddler
+        Host: @HttpContext.Current.Request.Url.Host
+        Content-Type: text/json
+    </pre>
+    <aside>
+        Parameters legend for GET request
+        <ul>
+            <li><i>obj</i>: measurement object</li>
+            <li><i>tag</i>: measurement tag</li>
+            <li><i>data-tags</i>: data (sensor) tags list as comma ',' or semi-colon ';' separated</li>
+            <li><i>from</i>: ISO 8601 datetime string from where to start measurements search</li>
+            <li><i>to</i>: ISO 8601 datetime string where to end measurements search</li>
+            <li><i>take</i>: number of latest results to take</li>
+            <li><i>inclusiveFrom</i>: When true or 1 from-value is included in the result values (default is true). Use false or 0 to exclude.</li>
+            <li><i>inclusiveTo</i>: When true or 1 to-value is included in the result values (default is true). Use false or 0 to exclude.</li>
+            <li>if using jQuery and jsonp add callback=? query parameter as seen in <a href="http://www.bendewey.com/index.php/186/using-jsonp-with-wcf-and-jquery" target="_blank">http://www.bendewey.com/index.php/186/using-jsonp-with-wcf-and-jquery</a></li>
+        </ul>
+    </aside>
+    <small>Note 1! For parameters <i>from</i> and <i>to</i> use YYYY-MM-DD format. Example: from=2014-10-23. This is also known as ISO 8601 format <a href="http://www.w3.org/TR/NOTE-datetime" target="_blank">http://www.w3.org/TR/NOTE-datetime</a>.</small>
+    <br />
+    <small>Note 2! Parameters <i>from</i> and <i>to</i> may also contain time value in YYYY-MM-DDTHH:mm:ss format. Example: from=2014-10-23T12:45:00. If time portion is not provided then it is set to 0:00:00 before database search.</small>
+    <br />
+    <small>Note 3! <i>key</i> parameter is required, other parameters are optional.</small>
+    <br />
+    <small>Note 4! If both <i>from</i> and <i>to</i> parameters are submitted then <i>take</i> can be omitted. Otherwise <i>take</i> will have default value of @Savonia.Measurements.Models.Constants.DefaultTakeValue.</small>
+    <h4>To get sensor information via json get request</h4>
+    <pre>
+        GET @Url.ContentAbsUrl(serviceBaseUrl + "/json/sensors/your-key-here") HTTP/1.1
+        User-Agent: Fiddler
+        Host: @HttpContext.Current.Request.Url.Host
+        Content-Type: text/json
+    </pre>
+</article>
+<h3>OData V4 interface</h3>
+<article>
+    Measurements service has also an experimental OData V4 interface which can be accessed from urls:
+    <ul>
+        <li>to query measurements use url <a href="~/odata/V4/Measurements('your-key-here')">@Url.ContentAbsUrl("~/odata/V4/Measurements('your-key-here')")</a></li>
+        <li>to query measurements where Tag is something use url <a href="~/odata/V4/Measurements('your-key-here')?$filter=Tag eq 'something'">@Url.ContentAbsUrl("~/odata/V4/Measurements('your-key-here')?$filter=Tag eq 'something'")</a></li>
+    </ul>
+
+    <h4>To read measurements via OData get request</h4>
+    <pre>
+        GET @Url.ContentAbsUrl("~/odata/V4/Measurements('your-key-here')") HTTP/1.1
+        User-Agent: Fiddler
+        Host: @HttpContext.Current.Request.Url.Host
+    </pre>
+    <p>
+        More information about OData is in <a href="http://www.odata.org/" target="_blank">http://www.odata.org/</a>. 
+        OData version 4 documentation is <a href="http://www.odata.org/documentation/odata-version-4-0/" target="_blank">here</a>.
+    </p>
+</article>

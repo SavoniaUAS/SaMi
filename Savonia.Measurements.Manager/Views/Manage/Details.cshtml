@@ -1,0 +1,118 @@
+﻿@model Savonia.Measurements.Models.ProviderModel
+
+@{
+    ViewBag.Title = "Provider Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Provider</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Key)
+        </dt>
+
+        <dd id="key">
+            @Html.DisplayFor(model => model.Key)
+            <button class="getKey btn btn-warning btn-xs" data-content="" data-success="key" type="button" >Show Key</button>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Info)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Info)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Owner)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Owner)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsPublic)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsPublic)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Created)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Created)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tag)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tag)
+        </dd>
+
+    </dl>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+    <hr />
+    <div>
+        <h4 id="access-title">Access keys</h4>
+        <div>
+            @Html.Partial("KeysPartialView", Model.Keys)
+        </div>
+    </div>
+    <hr />
+</div>
+
+
+
+    <h4 id="sensor-title">Sensors</h4>
+
+    @Html.Partial("_SensorsPartial")
+
+@section scripts
+{
+@Scripts.Render("~/Scripts/ajaxScript.js")
+    <script>
+        $(function() {
+        
+        $("#sensor-title").click(function () {
+            $(".sensors").toggleClass("hidden");
+        }).mouseover(function() {
+            (this).style.cursor = "pointer";
+        });
+
+        $("#access-title").click(function () {
+            $(".accessKeys").toggleClass("hidden");
+        }).mouseover(function () {
+            (this).style.cursor = "pointer";
+        });
+
+
+        $(document).on('click', ".getKey",
+               function () {
+                   var id = $(this).attr('data-success');
+                   var data = $(this).attr('data-content');
+                   AjaxString("POST", '@Url.Action("GetKey", "Manage")', data, 'html', id);
+               });
+        });
+    </script>
+}

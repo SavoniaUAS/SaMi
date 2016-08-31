@@ -1,0 +1,45 @@
+﻿<CsvReaderPluginSettings xmlns="http://schemas.datacontract.org/2004/07/CsvReaderPlugin" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<AdditionalHttpHeaders xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+		<a:string>header 1</a:string>
+		<a:string>header 2</a:string>
+	</AdditionalHttpHeaders>
+	<ContentEncoding>UTF-8</ContentEncoding>
+	<CsvUri>[service uri here]</CsvUri>
+	<DelimeterChar>;</DelimeterChar>
+	<HasHeaders>true</HasHeaders>
+	<IsWebResource>true</IsWebResource>
+	<ItemMap>
+		<CsvItem>
+			<Header>item 1</Header>
+			<Index>0</Index>
+			<SamiTag>sami tag 1</SamiTag>
+			<Scale>
+				<Destination>
+					<From>0</From>
+					<To>100</To>
+				</Destination>
+				<Source>
+					<From>0</From>
+					<To>10</To>
+				</Source>
+			</Scale>
+		</CsvItem>
+		<CsvItem>
+			<Header>item 2</Header>
+			<Index>0</Index>
+			<SamiTag>sami tag 2</SamiTag>
+			<Scale i:nil="true"/>
+		</CsvItem>
+	</ItemMap>
+	<MaxTimeToReadAtOnce>PT1H30M</MaxTimeToReadAtOnce>
+	<MeasurementObject>measurement object here if needed</MeasurementObject>
+	<MeasurementTag>measurement tag here if needed</MeasurementTag>
+	<MeasurementTimeFieldHeader>time</MeasurementTimeFieldHeader>
+	<MeasurementTimeFieldIndex>0</MeasurementTimeFieldIndex>
+	<Password>csv web client password</Password>
+	<QuotationChar>34</QuotationChar>
+	<ReadConfigPath>[path to read config]</ReadConfigPath>
+	<SamiKey>key here</SamiKey>
+	<UserName>csv web client username</UserName>
+</CsvReaderPluginSettings>
+

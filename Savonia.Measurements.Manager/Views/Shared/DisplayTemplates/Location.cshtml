@@ -1,0 +1,8 @@
+﻿@using Savonia.Measurements.Models;
+@model Location
+
+@if (null != Model)
+{ 
+    @*<a href="https://maps.google.com?@string.Format("ll={0},{1}&z=15", Model.GetCoordinate(Model.Latitude), Model.GetCoordinate(Model.Longitude), Model.ToString())" target="_blank">@Model</a>*@
+    <a href="https://www.google.com/maps/place/@string.Format("{0},{1}", Model.GetCoordinate(Model.Latitude), Model.GetCoordinate(Model.Longitude))" target="_blank">@Model</a>
+}

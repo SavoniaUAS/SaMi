@@ -1,0 +1,21 @@
+﻿<RemoteMXPluginSettings xmlns="http://schemas.datacontract.org/2004/07/RemoteMXPlugin" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <ChannelMap xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+    <a:KeyValueOfstringstring>
+      <a:Key>rmx-channel-1</a:Key>
+      <a:Value>sami-tag1</a:Value>
+    </a:KeyValueOfstringstring>
+    <a:KeyValueOfstringstring>
+      <a:Key>rmx-channel-2</a:Key>
+      <a:Value>sami-tag2</a:Value>
+    </a:KeyValueOfstringstring>
+  </ChannelMap>
+  <MaxTimeToReadAtOnce>P1DT0H00M</MaxTimeToReadAtOnce>
+  <MeasurementObject>measurement object here if needed</MeasurementObject>
+  <MeasurementTag>measurement tag here if needed</MeasurementTag>
+  <Password>Remote mx service password</Password>
+  <ReadConfigPath>path to read config file, which contains newest read measurement time</ReadConfigPath>
+  <SamiKey>key here</SamiKey>
+  <SaveMappedValuesOnly>true</SaveMappedValuesOnly>
+  <SiteId>0</SiteId>
+  <UserName>Remote mx service username</UserName>
+</RemoteMXPluginSettings>

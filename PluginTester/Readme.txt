@@ -1,0 +1,1 @@
+﻿This is console app for testing data provider plugins.

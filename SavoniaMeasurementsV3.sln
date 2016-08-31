@@ -1,0 +1,156 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Savonia.Measurements.Manager", "Savonia.Measurements.Manager\Savonia.Measurements.Manager.csproj", "{6326C201-48B8-43B6-82EE-E2E2393708DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Savonia.Measurements.Database", "Savonia.Measurements.Database\Savonia.Measurements.Database.csproj", "{36DE8A38-4F45-47F7-B139-B6A442A9886F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Savonia.Measurements.Models", "Savonia.Measurements.Models\Savonia.Measurements.Models.csproj", "{474A137E-1838-4106-B89A-06CF48BCA99C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{67D538D0-B7D5-4C65-82EE-64C8E9EE9ABE}"
+	ProjectSection(SolutionItems) = preProject
+		Tests\jsonptest.html = Tests\jsonptest.html
+		Readme.txt = Readme.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestClients", "TestClients\TestClients.csproj", "{281563FF-BCDA-4DA7-835B-453265F3B025}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6326C201-48B8-43B6-82EE-E2E2393708DA} = {6326C201-48B8-43B6-82EE-E2E2393708DA}
+		{36DE8A38-4F45-47F7-B139-B6A442A9886F} = {36DE8A38-4F45-47F7-B139-B6A442A9886F}
+		{474A137E-1838-4106-B89A-06CF48BCA99C} = {474A137E-1838-4106-B89A-06CF48BCA99C}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{C250DB19-3AF3-4085-8F0B-F17DAD1F6E17}"
+	ProjectSection(SolutionItems) = preProject
+		lib\Savonia.WCF.ErrorReporter Usage.docx = lib\Savonia.WCF.ErrorReporter Usage.docx
+		lib\Savonia.WCF.ErrorReporter.dll = lib\Savonia.WCF.ErrorReporter.dll
+		lib\Savonia.WCF.ErrorReporter.XML = lib\Savonia.WCF.ErrorReporter.XML
+		lib\Savonia.Web.ErrorReporter Usage.docx = lib\Savonia.Web.ErrorReporter Usage.docx
+		lib\Savonia.Web.ErrorReporter.dll = lib\Savonia.Web.ErrorReporter.dll
+		lib\Savonia.Web.ErrorReporter.XML = lib\Savonia.Web.ErrorReporter.XML
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Savonia.Measurements.Services", "Savonia.Measurements.Services\Savonia.Measurements.Services.csproj", "{A30E66B7-3687-44C3-ABA7-5F9F7C7497AE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{BE8D4D9A-0CA9-48F1-B0DB-080044FFAA67}"
+	ProjectSection(SolutionItems) = preProject
+		Documents\Readme.txt = Documents\Readme.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data providers", "Data providers", "{E77EAB4B-2789-4ECB-8143-A31263C5BD93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Savonia.Measurements.Providers.MeasurerService", "Savonia.Measurements.Providers.MeasurerService\Savonia.Measurements.Providers.MeasurerService.csproj", "{D469D3D6-A0C8-4A34-96C5-D8E4C2AD662E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A30E66B7-3687-44C3-ABA7-5F9F7C7497AE} = {A30E66B7-3687-44C3-ABA7-5F9F7C7497AE}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Savonia.Measurements.Providers.Models", "Savonia.Measurements.Providers.Models\Savonia.Measurements.Providers.Models.csproj", "{F207B043-6C5C-4B7B-A885-4ECE7724CC8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeasurementPluginTest", "MeasurementPluginTest\MeasurementPluginTest.csproj", "{0DEBF841-BD47-41E2-BB92-1929C78AF898}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Savonia.Measurements.Providers.DatabaseRepository", "Savonia.Measurements.Providers.DatabaseRepository\Savonia.Measurements.Providers.DatabaseRepository.csproj", "{531519A2-098E-4238-9301-1EA44AF820E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Savonia.Measurements.Providers.WCFRepository", "Savonia.Measurements.Providers.WCFRepository\Savonia.Measurements.Providers.WCFRepository.csproj", "{09B09471-EC65-467A-BBAB-5E7F92CD1310}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Savonia.Measurements.Common", "Savonia.Measurements.Common\Savonia.Measurements.Common.csproj", "{963EB12A-9695-44EE-A2AF-9B8FDC8B7415}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteMXPlugin", "RemoteMXPlugin\RemoteMXPlugin.csproj", "{90260763-9893-4F4E-9692-6F145EF61E96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginTester", "PluginTester\PluginTester.csproj", "{3DB16001-8E6B-4DD5-A2B9-EF6CF71F9B4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OPCUAPlugin", "OPCUAPlugin\OPCUAPlugin.csproj", "{0FFAB994-8376-4393-BA75-3B45E46B54BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PilotMeasurementPlugin", "PilotMeasurementPlugin\PilotMeasurementPlugin.csproj", "{054FCCB1-2E2E-4B24-B240-510F537EA719}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvReaderPlugin", "CsvReaderPlugin\CsvReaderPlugin.csproj", "{0E3C8423-AF99-451C-953F-336EFC3F4EF7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6326C201-48B8-43B6-82EE-E2E2393708DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6326C201-48B8-43B6-82EE-E2E2393708DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6326C201-48B8-43B6-82EE-E2E2393708DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6326C201-48B8-43B6-82EE-E2E2393708DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36DE8A38-4F45-47F7-B139-B6A442A9886F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36DE8A38-4F45-47F7-B139-B6A442A9886F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36DE8A38-4F45-47F7-B139-B6A442A9886F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36DE8A38-4F45-47F7-B139-B6A442A9886F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{474A137E-1838-4106-B89A-06CF48BCA99C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{474A137E-1838-4106-B89A-06CF48BCA99C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{474A137E-1838-4106-B89A-06CF48BCA99C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{474A137E-1838-4106-B89A-06CF48BCA99C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{281563FF-BCDA-4DA7-835B-453265F3B025}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{281563FF-BCDA-4DA7-835B-453265F3B025}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{281563FF-BCDA-4DA7-835B-453265F3B025}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{281563FF-BCDA-4DA7-835B-453265F3B025}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A30E66B7-3687-44C3-ABA7-5F9F7C7497AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A30E66B7-3687-44C3-ABA7-5F9F7C7497AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A30E66B7-3687-44C3-ABA7-5F9F7C7497AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A30E66B7-3687-44C3-ABA7-5F9F7C7497AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D469D3D6-A0C8-4A34-96C5-D8E4C2AD662E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D469D3D6-A0C8-4A34-96C5-D8E4C2AD662E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D469D3D6-A0C8-4A34-96C5-D8E4C2AD662E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D469D3D6-A0C8-4A34-96C5-D8E4C2AD662E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F207B043-6C5C-4B7B-A885-4ECE7724CC8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F207B043-6C5C-4B7B-A885-4ECE7724CC8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F207B043-6C5C-4B7B-A885-4ECE7724CC8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F207B043-6C5C-4B7B-A885-4ECE7724CC8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DEBF841-BD47-41E2-BB92-1929C78AF898}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DEBF841-BD47-41E2-BB92-1929C78AF898}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DEBF841-BD47-41E2-BB92-1929C78AF898}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DEBF841-BD47-41E2-BB92-1929C78AF898}.Release|Any CPU.Build.0 = Release|Any CPU
+		{531519A2-098E-4238-9301-1EA44AF820E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{531519A2-098E-4238-9301-1EA44AF820E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{531519A2-098E-4238-9301-1EA44AF820E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{531519A2-098E-4238-9301-1EA44AF820E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09B09471-EC65-467A-BBAB-5E7F92CD1310}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09B09471-EC65-467A-BBAB-5E7F92CD1310}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09B09471-EC65-467A-BBAB-5E7F92CD1310}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09B09471-EC65-467A-BBAB-5E7F92CD1310}.Release|Any CPU.Build.0 = Release|Any CPU
+		{963EB12A-9695-44EE-A2AF-9B8FDC8B7415}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{963EB12A-9695-44EE-A2AF-9B8FDC8B7415}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{963EB12A-9695-44EE-A2AF-9B8FDC8B7415}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{963EB12A-9695-44EE-A2AF-9B8FDC8B7415}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90260763-9893-4F4E-9692-6F145EF61E96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90260763-9893-4F4E-9692-6F145EF61E96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90260763-9893-4F4E-9692-6F145EF61E96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90260763-9893-4F4E-9692-6F145EF61E96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DB16001-8E6B-4DD5-A2B9-EF6CF71F9B4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DB16001-8E6B-4DD5-A2B9-EF6CF71F9B4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DB16001-8E6B-4DD5-A2B9-EF6CF71F9B4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DB16001-8E6B-4DD5-A2B9-EF6CF71F9B4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FFAB994-8376-4393-BA75-3B45E46B54BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FFAB994-8376-4393-BA75-3B45E46B54BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FFAB994-8376-4393-BA75-3B45E46B54BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FFAB994-8376-4393-BA75-3B45E46B54BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{054FCCB1-2E2E-4B24-B240-510F537EA719}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{054FCCB1-2E2E-4B24-B240-510F537EA719}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{054FCCB1-2E2E-4B24-B240-510F537EA719}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{054FCCB1-2E2E-4B24-B240-510F537EA719}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E3C8423-AF99-451C-953F-336EFC3F4EF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E3C8423-AF99-451C-953F-336EFC3F4EF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E3C8423-AF99-451C-953F-336EFC3F4EF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E3C8423-AF99-451C-953F-336EFC3F4EF7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{281563FF-BCDA-4DA7-835B-453265F3B025} = {67D538D0-B7D5-4C65-82EE-64C8E9EE9ABE}
+		{D469D3D6-A0C8-4A34-96C5-D8E4C2AD662E} = {E77EAB4B-2789-4ECB-8143-A31263C5BD93}
+		{F207B043-6C5C-4B7B-A885-4ECE7724CC8D} = {E77EAB4B-2789-4ECB-8143-A31263C5BD93}
+		{0DEBF841-BD47-41E2-BB92-1929C78AF898} = {E77EAB4B-2789-4ECB-8143-A31263C5BD93}
+		{531519A2-098E-4238-9301-1EA44AF820E0} = {E77EAB4B-2789-4ECB-8143-A31263C5BD93}
+		{09B09471-EC65-467A-BBAB-5E7F92CD1310} = {E77EAB4B-2789-4ECB-8143-A31263C5BD93}
+		{90260763-9893-4F4E-9692-6F145EF61E96} = {E77EAB4B-2789-4ECB-8143-A31263C5BD93}
+		{3DB16001-8E6B-4DD5-A2B9-EF6CF71F9B4E} = {67D538D0-B7D5-4C65-82EE-64C8E9EE9ABE}
+		{0FFAB994-8376-4393-BA75-3B45E46B54BB} = {E77EAB4B-2789-4ECB-8143-A31263C5BD93}
+		{054FCCB1-2E2E-4B24-B240-510F537EA719} = {E77EAB4B-2789-4ECB-8143-A31263C5BD93}
+		{0E3C8423-AF99-451C-953F-336EFC3F4EF7} = {E77EAB4B-2789-4ECB-8143-A31263C5BD93}
+	EndGlobalSection
+EndGlobal

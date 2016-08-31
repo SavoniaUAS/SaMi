@@ -1,0 +1,109 @@
+﻿@using Savonia.Measurements.Models;
+@model IEnumerable<Savonia.Measurements.Models.MeasurementModel>
+
+@{
+    ViewBag.Title = "Measurements";
+    IEnumerable<SensorModel> sensors = ViewBag.Sensors as IEnumerable<SensorModel>;
+}
+
+<h2>Measurements</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Object)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Timestamp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Location)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Note)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Object)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tag)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Timestamp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Location)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Note)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new {  id=item.ID  }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
+
+@if (null != sensors)
+{
+        <h3 id="sensor-title">+ Sensors</h3>
+        <table class="table sensors">
+            <tr>
+                <th>
+                    @Html.DisplayName("Tag")
+                </th>
+                <th>
+                    @Html.DisplayName("Name")
+                </th>
+                <th>
+                    @Html.DisplayName("Description")
+                </th>
+                <th>
+                    @Html.DisplayName("Unit")
+                </th>
+            </tr>
+
+            @foreach (var item in sensors)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tag)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Unit)
+                    </td>
+                </tr>
+            }
+
+        </table>
+@section scripts
+{ 
+    <script>
+        $(function() {
+            $(".sensors").toggleClass("hidden");
+        });
+        $("#sensor-title").click(function () {
+            $(".sensors").toggleClass("hidden");
+        }).mouseover(function() {
+            (this).style.cursor = "pointer";
+        });
+    </script>
+}
+        
+}

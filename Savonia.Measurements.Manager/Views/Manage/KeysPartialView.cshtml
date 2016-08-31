@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Savonia.Measurements.Models.AccessKeyModel>
+
+@{
+    int keysCount = Model.Count();
+}
+
+@if (keysCount < short.MaxValue)
+{
+    <p>
+        @Html.ActionLink("Create New Access Key", "CreateKey", new { providerID = ViewBag.ProviderID })
+    </p>
+}
+else
+{ 
+    <p>
+        This provider has exceeded the amount of possible keys!
+    </p>
+}
+<table class="table accessKeys">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CombinedKey)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccessControl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ValidFrom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ValidTo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Info)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.OrderBy(k => k.KeyId))
+{
+    <tr>
+        @{string aID = "aKey" + item.KeyId.ToString(); }
+        <td id="@aID">
+            @Html.DisplayFor(modelItem => item.CombinedKey)
+            <button class="getKey btn btn-warning btn-xs" data-content="@item.KeyId" data-success="@aID" type="button">Show Key</button>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccessControl)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ValidFrom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ValidTo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Info)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditAccessKey", new { providerID=item.ProviderID, id = item.KeyId })
+            @Html.ActionLink("Delete", "DeleteKey", new { providerID=item.ProviderID, id = item.KeyId})
+        </td>
+    </tr>
+}
+
+</table>

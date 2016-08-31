@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Savonia.WCF.ErrorReporter</name>
+    </assembly>
+    <members>
+        <member name="T:Savonia.WCF.ErrorReporter.ErrorReporterModule">
+            <summary>
+            Sends error reports to specified mail recipient(s).
+            Use "ExceptionMailsRecipients" key in appSettings to enable error reporting.
+            Use comma (,) separated list of error report recipients.
+            </summary>
+        </member>
+        <member name="M:Savonia.WCF.ErrorReporter.ErrorReporterModule.ProvideFault(System.Exception,System.ServiceModel.Channels.MessageVersion,System.ServiceModel.Channels.Message@)">
+            <summary>
+            http://stackoverflow.com/questions/2379917/wcf-exception-handling-strategies
+            </summary>
+            <param name="ex"></param>
+            <param name="version"></param>
+            <param name="fault"></param>
+        </member>
+        <member name="M:Savonia.WCF.ErrorReporter.ErrorReporterModule.GenerateMessageFromException(System.Exception)">
+            <summary>
+            Generates a string message from exception details.
+            </summary>
+            <param name="ex">Exception</param>
+            <returns></returns>
+        </member>
+        <member name="T:Savonia.WCF.ErrorReporter.ErrorBehaviorAttribute">
+            <summary>
+            This attribute can be used to install a custom error handler for a service
+            see: http://msdn.microsoft.com/en-us/library/ms751439.aspx
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,117 @@
+﻿@model Savonia.Measurements.Models.MeasurementQueryModel
+
+@{
+    ViewBag.Title = "Savonia Measurements V3";
+}
+
+<div class="jumbotron">
+    <h1>Savonia Measurements System V3</h1>
+    <p class="lead">Savonia Measurements</p>
+</div>
+<form action="@Url.Action("Measurements")" method="post">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-horizontal">
+                <h4>Getting started</h4>
+                <hr />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Key, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Key, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Key, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Obj, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Obj, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Tag, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Tag, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Take, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Take, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    Measurement time range
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.From, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.From, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.From, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.To, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.To, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.To, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    Data tags <small>(use comma ',' or semi-colon ';' separated list)</small>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Sensors, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Sensors, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    Currently there are no paging to display the results, so know your data and use the Take parameter!
+                </div>
+                <input type="submit" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section head {
+    @Styles.Render("~/Content/jquery-ui-1.11.4.custom/cssjqueryui")
+    @Styles.Render("~/Content/jquery-ui-1.11.4.custom/jquery-ui.structure.css")
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $('#@Html.IdFor(model => model.From)').datepicker({ dateFormat: '@Savonia.Measurements.Models.Constants.DateFormatForJavaScript' });
+        $('#@Html.IdFor(model => model.To)').datepicker({ dateFormat: '@Savonia.Measurements.Models.Constants.DateFormatForJavaScript' });
+
+
+            jQuery.validator.addMethod(
+                'date',
+                function (value, element, params) {
+                    if (this.optional(element)) {
+                        return true;
+                    };
+                    var result = false;
+                    try {
+                        var d = Date.parse(value);
+                        result = !isNaN(d);
+                    } catch (err) {
+                        result = false;
+                    }
+                    return result;
+                },
+                ''
+            );
+        });
+    </script>
+}

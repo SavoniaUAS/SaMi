@@ -1,0 +1,1 @@
+﻿Models project is a class library for most of the business models used in SAMI.

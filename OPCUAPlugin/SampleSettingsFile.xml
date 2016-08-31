@@ -1,0 +1,29 @@
+﻿<OpcUAPluginSettings xmlns="http://schemas.datacontract.org/2004/07/OPCUAPlugin" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <ItemMap>
+    <OPCUAItem>
+      <Identifier>opc-item-name 1</Identifier>
+      <SamiTag>sami-tag 1</SamiTag>
+      <Scale>
+        <Destination>
+          <From>0</From>
+          <To>10</To>
+        </Destination>
+        <Source>
+          <From>0</From>
+          <To>100</To>
+        </Source>
+      </Scale>
+    </OPCUAItem>
+    <OPCUAItem>
+      <Identifier>opc-item-name 2</Identifier>
+      <SamiTag>sami-tag 2</SamiTag>
+    </OPCUAItem>
+  </ItemMap>
+  <MeasurementObject>measurement object here if needed</MeasurementObject>
+  <MeasurementTag>measurement tag here if needed</MeasurementTag>
+  <NamespaceUri>S7COM:</NamespaceUri>
+  <OpcUAServiceUrl>opc.tcp://opc-server-here:4845</OpcUAServiceUrl>
+  <Password>Opc XML DA service password</Password>
+  <SamiKey>key here</SamiKey>
+  <UserName>Opc XML DA service username</UserName>
+</OpcUAPluginSettings>

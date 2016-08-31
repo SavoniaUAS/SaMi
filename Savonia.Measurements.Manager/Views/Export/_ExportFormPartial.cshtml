@@ -1,0 +1,73 @@
+﻿@using Savonia.Measurements.Manager.Models
+
+@model ExportModel
+@{IEnumerable<string> datetimeFormats = ViewBag.DatetimeFormats as IEnumerable<string>;
+}
+  <form action="@Url.Action("ExportFile","Export")" method="post">
+      @Html.AntiForgeryToken()
+    <h3>Export Options</h3>
+    <div class="form-inline">
+        <div class="row" style="margin-bottom:20px;">
+            <div class="form-group col-md-4">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Datetimeformat, htmlAttributes: new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.Datetimeformat, new SelectList(datetimeFormats), new { @class = "form-control",@id="timestampList" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-4">  
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.ColumnDelimeter, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.ColumnDelimeter, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="form-group col-md-4">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.FileFormat, htmlAttributes: new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.FileFormat, new SelectList(new List<string> { "CSV", "other" }), new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                @Html.LabelFor(model => model.ShowHeaders, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-12">
+                        <label class="radio-inline">
+                            @Html.RadioButtonFor(model => model.ShowHeaders, true, new { @id = "yes", @checked = "true" })Yes
+                        </label>
+                        <label class="radio-inline">
+                            @Html.RadioButtonFor(model => model.ShowHeaders, false, new { @id = "No" })No
+                        </label>
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.DataValues, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <label class="checkbox-inline">
+                        @Html.CheckBoxFor(model => model.DataValues.Value, new Dictionary<string, object> { { "checked" ,"true" } ,{ "class" , "toggleValue" }, { "data-value" , ".value" } })
+                        Value
+                    </label>
+                    <label class="checkbox-inline">
+                        @Html.CheckBoxFor(model => model.DataValues.LongValue,new { @class = "toggleValue", @data_value = ".longValue" })
+                        Long
+                    </label>
+                    <label class="checkbox-inline">
+                        @Html.CheckBoxFor(model => model.DataValues.TextValue, new { @class = "toggleValue", @data_value = ".textValue" })
+                       Text
+                    </label>
+                    <label class="checkbox-inline">
+                        @Html.CheckBoxFor(model => model.DataValues.BinaryValue, new { @class = "toggleValue", @data_value = ".binaryValue" })
+                       Binary
+                    </label>
+                    <label class="checkbox-inline">
+                        @Html.CheckBoxFor(model => model.DataValues.XmlValue, new { @class = "toggleValue", @data_value = ".xmlValue" })
+                        Xml
+                    </label>
+                </div>
+            </div>
+            <button id="buttonDownload" type="submit" class="btn btn-primary btn-lg">Download</button>
+        </div>           
+    </div>
+ </form>

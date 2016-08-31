@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:SiteFetcher" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:typens="urn:SiteFetcher" name="urn:SiteFetcher" targetNamespace="urn:SiteFetcher" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema targetNamespace="urn:SiteFetcher">
+      <xsd:complexType name="siteData">
+        <xsd:sequence>
+          <xsd:element name="id" type="xsd:int" />
+          <xsd:element name="name" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="sites">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="site" type="typens:siteData" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="user">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="username" type="xsd:string" />
+            <xsd:element name="password" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="variable">
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:double" />
+          <xsd:element name="channel" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="record">
+        <xsd:sequence>
+          <xsd:element name="created" type="xsd:dateTime" />
+          <xsd:element name="timestamp" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="variables" type="typens:variable" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="site">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="data" type="typens:record" />
+          </xsd:sequence>
+          <xsd:attribute name="id" type="xsd:int" />
+          <xsd:attribute name="name" type="xsd:string" />
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="datareq">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="username" type="xsd:string" />
+            <xsd:element name="password" type="xsd:string" />
+            <xsd:element name="siteId" type="xsd:int" />
+            <xsd:element name="startDate" type="xsd:dateTime" />
+            <xsd:element name="endDate" type="xsd:dateTime" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="error">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="message" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </types>
+  <message name="getSitesResponse">
+    <part name="return" element="typens:sites" />
+  </message>
+  <message name="getDataRequest">
+    <part name="parameters" element="typens:datareq" />
+  </message>
+  <message name="getDataResponse">
+    <part name="return" element="typens:site" />
+  </message>
+  <message name="getSitesRequest">
+    <part name="parameters" element="typens:user" />
+  </message>
+  <message name="errorMessageResponse">
+    <part name="fault" element="typens:error" />
+  </message>
+  <portType name="RdmSites">
+    <operation name="getSites">
+      <input name="getSitesRequest" message="typens:getSitesRequest" />
+      <output name="getSitesResponse" message="typens:getSitesResponse" />
+      <fault name="errorMessage" message="typens:errorMessageResponse" />
+    </operation>
+    <operation name="getData">
+      <input name="getDataRequest" message="typens:getDataRequest" />
+      <output name="getDataResponse" message="typens:getDataResponse" />
+      <fault name="errorMessage" message="typens:errorMessageResponse" />
+    </operation>
+  </portType>
+  <binding name="RdmSitesSOAPBinding" type="typens:RdmSites">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="getSites">
+      <soap:operation soapAction="" />
+      <input name="getSitesRequest">
+        <soap:body use="literal" />
+      </input>
+      <output name="getSitesResponse">
+        <soap:body use="literal" />
+      </output>
+      <fault name="errorMessage">
+        <soap:fault use="literal" name="errorMessage" namespace="" />
+      </fault>
+    </operation>
+    <operation name="getData">
+      <soap:operation soapAction="" />
+      <input name="getDataRequest">
+        <soap:body use="literal" />
+      </input>
+      <output name="getDataResponse">
+        <soap:body use="literal" />
+      </output>
+      <fault name="errorMessage">
+        <soap:fault use="literal" name="errorMessage" namespace="" />
+      </fault>
+    </operation>
+  </binding>
+  <service name="RdmSitesService">
+    <port name="RdmSites" binding="typens:RdmSitesSOAPBinding">
+      <soap:address location="http://ext1.remotemx.com/ws/services/RdmSitesService/" />
+    </port>
+  </service>
+</definitions>

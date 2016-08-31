@@ -1,0 +1,23 @@
+﻿@model Savonia.Measurements.Models.SaveResult
+
+@{
+    ViewBag.Title = "Raw data save result";
+}
+
+<h2>Raw data save result</h2>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Success)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Success)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to raw data input", "Index")
+</p>

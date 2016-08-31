@@ -1,0 +1,23 @@
+﻿@using Savonia.Measurements.Models
+@using Savonia.Measurements.Manager.Models;
+
+@model List<MeasurementModel>
+@{IEnumerable<string> datetimeFormats = ViewBag.DatetimeFormats as IEnumerable<string>;
+    ExportModel exportModel = ViewBag.ExportModel;
+    int mCount = ViewBag.MeasurementCount;
+}
+
+<div class="row">
+    <hr />
+    <div class="alert alert-info fade in">
+        <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <span class="text-info"><strong>@mCount</strong>  measurements found with given parameters and <strong>@Html.Encode(Model.Count().ToString())</strong> is available on preview.</span>
+    </div>
+    <div class="container">
+        @Html.Partial("_ExportFormPartial", new ExportModel())
+    </div>
+    <hr />
+    <div class="col-md-12">
+        @Html.Partial("_MeasurementsPartial")
+    </div>
+</div>

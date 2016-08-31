@@ -1,0 +1,109 @@
+﻿
+@model Savonia.Measurements.Models.MeasurementQueryModel
+@{IEnumerable<string> objects = ViewBag.Objects as IEnumerable<string>; }
+<form action="@Url.Action("Measurements")" method="post" id="formGet">
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-md-10">
+            <div class="form-horizontal">
+                <h3>Query values</h3>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Obj, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @if (objects != null && objects.Count() > 0)
+                        {
+                            @Html.DropDownListFor(model => model.Obj, new SelectList(objects), new { @class = "form-control" })
+
+                        }
+                        else
+                        {
+                            @Html.EditorFor(model => model.Obj, new { htmlAttributes = new { @class = "form-control" } })
+                        }
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Tag, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Tag, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Take, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Take, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    Measurement time range
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.From, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.From, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.From, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.To, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.To, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.To, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    Data tags <small>(use comma ',' or semi-colon ';' separated list)</small>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Sensors, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Sensors, new { htmlAttributes = new { @class = "form-control", id = "inputDataTag" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div id="progressbar" style="background-color:dodgerblue" class="collapse"></div>
+                </div>
+                <div class="form-inline">
+                    <button class="btn btn-info" data-toggle="collapse" data-target=".alert-info" type="button">Info</button>
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-default" id="SaveQuery">
+                            <input type="checkbox" autocomplete="off">Save Query
+                        </label>
+                    </div>
+                    <button id="buttonGetMeasurements" type="submit" class="btn btn-primary">Get Measurements</button>
+                    <div class="alert alert-info collapse">
+                        <p><strong>Object</strong> Defines Object name.</p>
+                        <p><strong>Tag</strong> Defines Tag name.</p>
+                        <div>
+                            <strong>Take</strong> Defines how many measurements are taken.<br />
+                            <i style="color:slateblue;">
+                                If <b>Take</b> is defined with<br />
+                                <b style="color:red;">From</b> and <b style="color:red;">To</b> parameters, <br />
+                                Measurements are taken the <b>Take</b> count of that time range.<br />
+                            </i>
+                        </div>
+
+                        <p><strong>From</strong> Defines the starting datetime of time range.</p>
+                        <p><strong>To</strong> Defines the ending datetime of time range.</p>
+                        <p><strong>DataTags</strong> Defines the sensors.</p>
+                    </div>
+                </div>
+
+                <div class="form-group collapse border-save" id="nameDiv">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10 form-control-static form-inline">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        <button style="margin-left:10px;" id="confirmSave" class="btn btn-primary" type="submit">Save</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>

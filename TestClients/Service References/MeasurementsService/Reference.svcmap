@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="6abdd3c9-36a8-4151-ae74-22820960eb60" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:55276/MeasurementsService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="MeasurementsService.xsd" MetadataType="Schema" ID="a915bf02-2309-4052-8226-95c2fb4fba47" SourceId="1" SourceUrl="http://localhost:55276/MeasurementsService.svc?xsd=xsd2" />
+    <MetadataFile FileName="MeasurementsService.wsdl" MetadataType="Wsdl" ID="d02b09f3-d56b-4614-8eee-3f0116077965" SourceId="1" SourceUrl="http://localhost:55276/MeasurementsService.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="MeasurementsService1.xsd" MetadataType="Schema" ID="8a6ccc0d-03b6-41f9-993c-c1113c8eb6ab" SourceId="1" SourceUrl="http://localhost:55276/MeasurementsService.svc?xsd=xsd1" />
+    <MetadataFile FileName="MeasurementsService1.wsdl" MetadataType="Wsdl" ID="7c7991aa-e1e1-4087-9fda-b99e50f7636d" SourceId="1" SourceUrl="http://localhost:55276/MeasurementsService.svc?wsdl" />
+    <MetadataFile FileName="MeasurementsService2.xsd" MetadataType="Schema" ID="80ec5028-d701-4cbb-8e43-0db72b01a5bd" SourceId="1" SourceUrl="http://localhost:55276/MeasurementsService.svc?xsd=xsd0" />
+    <MetadataFile FileName="MeasurementsService.disco" MetadataType="Disco" ID="f39e6515-1024-4a7d-a098-6083d4487887" SourceId="1" SourceUrl="http://localhost:55276/MeasurementsService.svc?disco" />
+    <MetadataFile FileName="MeasurementsService3.xsd" MetadataType="Schema" ID="842883f7-8dbd-429e-9a53-e97f81aa142b" SourceId="1" SourceUrl="http://localhost:55276/MeasurementsService.svc?xsd=xsd3" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

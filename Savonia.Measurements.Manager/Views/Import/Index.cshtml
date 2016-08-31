@@ -1,0 +1,68 @@
+﻿@model Savonia.Measurements.Manager.Models.RawDataModel
+
+@{
+    ViewBag.Title = "Provide measurements";
+}
+
+<h2>Raw data import</h2>
+
+@using (Html.BeginForm("Parse", "Import"))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <p>
+            This feature may be used to bulk import some data to a provider identified with a Key. The parser tries to read CSV style data from Raw data field.
+        </p>
+        <ol>
+            <li>Paste / write data to Raw data field</li>
+            <li>Specify separator(s)</li>
+            <li>Click Parse button</li>
+        </ol>
+        <p>
+            The Parser tries to separate the values and then shows a view where you can map different fields to measurements. The shown view contains a Save button which actually saves the
+            mapped data to the system.
+        </p>
+        <p>
+            Typically the data should contain measurement time, some identification for the measurement and measured values in each row. One row is treated as one measurement and each value on that row are measurement values occurred at the same time.
+        </p>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Key, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Key, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Key, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RawData, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RawData, new { htmlAttributes = new { @class = "form-control large-textarea" } })
+                @Html.ValidationMessageFor(model => model.RawData, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Separators, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Separators, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Separators, "", new { @class = "text-danger" })
+            </div>
+            <p>
+                When separators field is left empty then default separators semi-colon ";" and tab are used.
+            </p>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Parse" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to Main", "Index", "Home")
+</div>

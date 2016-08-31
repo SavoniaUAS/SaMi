@@ -1,0 +1,5 @@
+﻿@model System.DateTimeOffset?
+@{
+    object html = ViewBag.htmlAttributes as object;
+}
+@Html.TextBox("", Model.HasValue ? Model.Value.ToString(Savonia.Measurements.Models.Constants.DateTimeFormat) : "", html)

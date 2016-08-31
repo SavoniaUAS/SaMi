@@ -1,0 +1,390 @@
+﻿@using Savonia.Measurements.Models;
+@using Savonia.Measurements.Manager.Models;
+@{
+    ViewBag.Title = "Export  Measurements";
+    @model Savonia.Measurements.Models.MeasurementQueryModel
+    IEnumerable<SensorModel> sensors = ViewBag.Sensors as IEnumerable<SensorModel>;
+    List<SavedQueryModel> queries = ViewBag.Queries as List<SavedQueryModel>;
+}
+<div class="jumbotron span4 offset4 text-center ">
+    <h1>Export</h1>
+    <p class="lead">Savonia Measurements</p>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="span4 offset4 text-center">
+            <h3>Saved Queries</h3>
+
+            <select name="@Html.Name("Queries")"
+                    id="@Html.Id("SavedQueries")"
+                    class="form-control" style="display:inline">
+                @foreach (var q in queries)
+                {
+                    <option value="@q.Obj"
+                            data-tag="@q.Tag"
+                            data-take="@q.Take"
+                            data-from="@q.From"
+                            data-to="@q.To"
+                            data-sensors="@q.Sensors"
+                            data-id="@q.ID"
+                            data-name="@q.Name">
+                        @q.Name
+                    </option>
+                }
+            </select>
+            <button id="removeQuery" class="btn btn-default">Delete Query</button>
+        </div>
+        <div id="deleteQueryResult"></div>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        @Html.Partial("_MeasurementsFormPartial", Model)
+    </div>
+    <div class="col-md-6">
+        @if (null != sensors)
+            {
+            @Html.Partial("_SensorsPartial", sensors)
+        }
+    </div>
+</div>
+<div id="respond"></div>
+
+<!--Export Section-->
+<div id="exportSection"></div>
+
+@section scripts{
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/Datatables/datatables.min.css")
+    @Scripts.Render("~/Content/Datatables/datatables.min.js")
+    @Scripts.Render("~/Content/Datatables/DataTables-1.10.12/js/jquery.dataTables.min.js")
+    @Scripts.Render("~/Content/Datatables/DataTables-1.10.12/js/dataTables.jqueryui.js")
+    @Scripts.Render("~/Content/Datatables/Scroller-1.4.2/js/dataTables.scroller.min.js")
+    @Scripts.Render("~/Scripts/jquery.datetimepicker.js")
+    @Styles.Render("~/Content/jquery.datetimepicker.css")
+    @Scripts.Render("~/Scripts/ajaxScript.js")
+
+    <script type="text/javascript">
+
+            $(document).ready(function () {
+                $("#progressbar").progressbar({
+                    value: true
+                });
+                var fromID = "#@Html.IdFor(model => model.From)";
+                var toID = '#@Html.IdFor(model => model.To)';
+                var tag ="";
+
+                $("#removeQuery").click(function (event) {
+                    event.preventDefault();
+                    event.stopImmediatePropagation();
+                    var select = document.getElementById("SavedQueries");
+                    var selected= $(select).find(":selected");
+                    var item = {};
+                    item['Obj'] = selected.prop("value");
+                    item['Tag'] = selected.data("tag");
+                    item['Name'] = selected.data("name")
+                    item['Take'] = selected.data("take");
+                    item['From'] = selected.data("from");
+                    item['To'] = selected.data("to");
+                    item['ID'] = selected.data("id");
+                    item['Sensors'] = selected.data("sensors")
+                    AjaxFuncDelegate("POST", '@Url.Action("DeleteQuery", "Export")', item, 'html', AppendAndDeleteQuery)
+                });
+
+                $("#SavedQueries").change(function ()
+                {
+                    var selected = $(this).find(":selected");
+                    var obj= selected.prop("value");
+                    var t = selected.data("tag");
+                    var take= selected.data("take");
+                    var from = selected.data("from");
+                    var to= selected.data("to");
+                    var s= selected.data("sensors")
+                    var sensors = s.split(new RegExp("[,;]",'g'));
+                    $("#Obj").find("option").filter(function(index) {
+                        return obj === $(this).text();
+                    }).prop("selected", "selected");
+                    $("#Tag").val(t);
+                    $("#Take").val(take);
+                    $("#From").val(from);
+                    $("#To").val(to);
+                    $('#tableSensors tbody').find("tr").filter(function(index)
+                    {
+                        tag = table.cell(this, 0).data();
+                        if (sensors.some(checkSensors))
+                        {
+                            addToDataTags(tag);
+                            if (!$(this).hasClass("selected"))
+                            {
+                                $(this).addClass("selected");
+                            }
+                        }
+                        else
+                        {
+                            DeleteFromDataTags(tag);
+                            if ($(this).hasClass("selected"))
+                            {
+                                $(this).removeClass("selected");
+                            }
+                        }
+                    });
+                });
+
+                function checkSensors(sensor)
+                {
+                    return sensor==tag;
+                }
+
+                $(fromID).datetimepicker({
+                    format: 'Y-m-d H:i',
+                    onShow: function (ct) {
+                        this.setOptions({
+                            maxDate: jQuery(toID).val() ? jQuery(toID).val() : false,
+                            formatDate: 'Y-m-d H:i'
+                        })
+                    },
+                    timepicker: true,
+                    step: 60,
+                    lang: 'en',
+                });
+                $(toID).datetimepicker({
+                    format: 'Y-m-d H:i',
+                    onShow: function (ct) {
+                        this.setOptions({
+                            minDate: jQuery(fromID).val() ? jQuery(fromID).val() : false,
+                            formatDate: 'Y-m-d H:i'
+                        })
+                    },
+                    timepicker: true,
+                    step: 60,
+                    lang: 'en',
+                });
+
+                function getDate(datum) { return datum.replace(/-/g, "/"); }
+
+                jQuery.validator.addMethod(
+                    'date',
+                    function (value, element, params) {
+                        if (this.optional(element)) {
+                            console.log(value + " " + element + " " + params);
+                            return true;
+                        };
+                        var result = false;
+                        try {
+                            var d = Date.parse(value);
+                            result = !isNaN(d);
+                        } catch (err) {
+                            result = false;
+                        }
+                        return result;
+                    },
+                    ''
+                );
+
+                var table = $("#tableSensors").DataTable({
+                    deferRender: true,
+                    scrollY: 200,
+                });
+                $('#tableSensors tbody').on('click', 'tr', function () {
+                    if ($(this).hasClass('selected')) {
+                        $(this).removeClass('selected');
+                        var tag = table.cell(this, 0).data();
+                        DeleteFromDataTags(tag);
+                    }
+                    else {
+                        $(this).addClass('selected');
+                        var tag = table.cell(this, 0).data();
+                        console.log(tag);
+                        addToDataTags(tag);
+                    }
+                });
+
+                var originalColor = $('tr').css('background-color');
+
+            });
+
+            $("#SaveQuery").click(function(event)
+            {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                $(this).toggleClass('active');
+                $("#nameDiv").toggleClass("collapse")
+                $("#Name").val("");
+            });
+
+            function addToDataTags(tag) {
+                var temp = $('#inputDataTag').val();
+                if (temp.indexOf(tag) == -1) {
+                    if (temp != "") {
+                        temp += ";";
+                    }
+                    temp = temp + tag;
+                    $('#inputDataTag').val(temp);
+                }
+            }
+
+            function DeleteFromDataTags(tag) {
+                var temp = $('#inputDataTag').val();
+                var index = temp.indexOf(tag);
+                if (index > -1) {
+                    if (temp[index - 1] == ';') {
+                        temp = temp.replace(';' + tag, '');
+                    }
+                    else if (temp[index + tag.length]) {
+                        temp = temp.replace(tag + ';', '');
+                    }
+                    else {
+                        temp = temp.replace(tag, '');
+                    }
+                    $('#inputDataTag').val(temp);
+                }
+            }
+                var originalColor = $('tr').css('background-color');
+                $('tr').hover(
+                     function () {
+                         $(this).css('background-color', '#acbad5');
+                     },
+                     function () {
+                         $(this).css('background-color', originalColor);
+                     }
+                );
+
+            var url = '@Url.Action("Measurements", "Export")';
+            var urlCancel ='@Url.Action("Cancel", "Export")';
+            $("#buttonGetMeasurements").click(
+                 function (event) {
+                     event.preventDefault();
+                     event.stopImmediatePropagation();
+                     var form = $("#formGet").serialize();
+                     $("#progressbar").progressbar("option", "value", false);
+                     $("#progressbar").toggleClass("collapse");
+                     if (!$("#buttonGetMeasurements").hasClass("disabled")) {
+                         $("#buttonGetMeasurements").addClass("disabled");
+                         AjaxErrorRedirection("POST", url, form, 'html', MeasurementSuccess);
+                     }
+                 });
+
+
+            function MeasurementSuccess(data)
+            {
+                if ($("#buttonGetMeasurements") != null && $("#buttonGetMeasurements").hasClass("disabled")) {
+                    $("#buttonGetMeasurements").removeClass("disabled");
+                }
+                AppendHtml(data, "#exportSection");
+                $("#progressbar").progressbar("option", "value", true);
+                $("#progressbar").toggleClass("collapse");
+            }
+
+            function AddQueryToList(q)
+            {
+                var select = document.getElementById("SavedQueries");
+                var option = document.createElement("option");
+                var selected = $(this).find(":selected");
+                option.text = q.Name;
+                select.add(option);
+                var last = $("#SavedQueries option:last-child");
+
+                if (q.Value == null) {
+                    q.Value = "";
+                }
+                if (q.Tag == null) {
+                    q.Tag = "";
+                }
+                if (q.Take == null) {
+                    q.Take = "";
+                }
+                if (q.From == null) {
+                    q.From = "";
+                }
+                if (q.Sensors == null) {
+                    q.Sensors = "";
+                }
+                if (q.To == null)
+                {
+                    q.To = "";
+                }
+                if (q.ID == null) {
+                    q.ID = "";
+                }
+                if (q.Name == null) {
+                    q.Name = "";
+                }
+                last.attr("data-sensors", q.Sensors);
+                last.attr("data-to", q.To);
+                last.attr("data-from", q.From);
+                last.attr("data-take", q.Take);
+                last.attr("data-tag", q.Tag);
+                last.attr("data-id", q.ID);
+                last.attr("data-name", q.Name);
+                last.prop("value", q.Obj);
+            }
+
+            function AppendAndAddQuery(query)
+            {
+                var c = isJSON(query);
+                if (c == true)
+                {
+                    var q = JSON.parse(query);
+                    AddQueryToList(q);
+                    var result = " <div class='alert alert-success fade in'><a class='close' data-dismiss='alert' aria-label='close'>&times;</a><span class='text-info'><span class='text-success'>Query: " + q.Name + " was <strong>saved</strong> successfully!</span></span></div>";
+                    AppendHtml(result, "#respond");
+                }
+                else
+                {
+                    AppendHtml(query,"#respond");
+                }
+            }
+
+            function AppendAndDeleteQuery(query) {
+                var c = isJSON(query);
+                if (c == true) {
+                    var q = JSON.parse(query);
+                    $("#SavedQueries option").filter(function ()
+                    {
+                        if ($(this).data("id")==q.ID) {
+                            $(this).remove();
+                            return false;
+                        }
+                        else {
+                            return true;
+                        }
+                    });
+                    var result = " <div class='alert alert-success fade in'><a class='close' data-dismiss='alert' aria-label='close'>&times;</a><span class='text-info'><span class='text-success'>Query: " + q.Name + " was <strong>deleted</strong> successfully!</span></span></div>";
+                    AppendHtml(result, "#deleteQueryResult");
+                }
+                else {
+                    AppendHtml(query, "#deleteQueryResult");
+                }
+            }
+
+            function isJSON(data) {
+                if (typeof data != 'string')
+                    data = JSON.stringify(data);
+                try {
+                    JSON.parse(data);
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+            function AppendHtml(content,id)
+            {
+                $(id).html("");
+                $(id).append(content);
+            }
+
+            $("#confirmSave").click(
+             function (event) {
+                 event.preventDefault();
+                 event.stopImmediatePropagation();
+                 var form = $("#formGet").serialize();
+                 AjaxFuncDelegate("POST", '@Url.Action("SaveQuery", "Export")', form, 'html', AppendAndAddQuery)
+
+             });
+    </script>
+}
+

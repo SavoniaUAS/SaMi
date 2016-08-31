@@ -1,0 +1,104 @@
+﻿@model Savonia.Measurements.Models.AccessKeyModel
+@{
+    ViewBag.Title = "Edit AccessKey";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Accesskey</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ProviderID)
+        @Html.HiddenFor(model => model.KeyId)
+        <div class="form-group">
+            @Html.LabelFor(model => model.CombinedKey, htmlAttributes: new { @class = "control-label col-md-2" })
+            @{string modelID = "model" + Model.KeyId.ToString(); }
+            <div class="col-md-10" style= "margin:6px 0px 0px 0px" id="@modelID">         
+                    @Html.DisplayFor(modelItem => Model.CombinedKey)
+                    <button class="getKey btn btn-warning btn-xs" data-content="@Model.KeyId" data-success="@modelID" type="button">Show Key</button>
+                </div>
+            </div>
+     
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AccessControl, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(model => model.AccessControl)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ValidFrom, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ValidFrom, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ValidFrom, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ValidTo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ValidTo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ValidTo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Info, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Info, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Info, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Edit" class="btn btn-default" />
+                <button class="btn btn-info" data-toggle="collapse" data-target=".alert-info" type="button">Info</button>
+                <div class="alert alert-info collapse">
+                    <p style="color:red;"><strong>Key</strong> You cannot change key in Accesskey.</p>
+                    <p><strong>Accesscontrol</strong> Defines the access level of the key.</p>
+                    <p><strong>ValidFrom</strong> Defines the starting date of key validity.</p>
+                    <p><strong>ValidTo</strong> Defines the ending date of key validity.</p>
+                    <p><strong>Info</strong> Additional information about access key.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to Provider", "Details", new { id = Model.ProviderID })
+</div>
+@section head {
+    @Styles.Render("~/Content/jquery-ui-1.11.4.custom/cssjqueryui")
+    @Styles.Render("~/Content/jquery-ui-1.11.4.custom/jquery-ui.structure.css")
+}
+
+@section Scripts {
+
+    @Scripts.Render("~/Scripts/ajaxScript.js")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#@Html.IdFor(model => model.ValidFrom)').datepicker({ dateFormat: '@Savonia.Measurements.Models.Constants.DateFormatForJavaScript' });
+            $('#@Html.IdFor(model => model.ValidTo)').datepicker({ dateFormat: '@Savonia.Measurements.Models.Constants.DateFormatForJavaScript' });
+
+            $(document).on('click', ".getKey",
+            function () {
+                var id = $(this).attr('data-success');
+                var data = $(this).attr('data-content');
+                AjaxString("POST", '/Manage/GetKey', data, 'html', id);
+            });
+        });
+
+     
+
+    </script>
+}
